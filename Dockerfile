@@ -47,7 +47,6 @@ RUN pnpm install --prod --frozen-lockfile
 COPY --from=builder --chown=node:node /opt/lavamusic/dist ./dist
 COPY --from=builder --chown=node:node /opt/lavamusic/src/utils/LavaLogo.txt ./src/utils/LavaLogo.txt
 COPY --from=builder --chown=node:node /opt/lavamusic/locales ./locales
-COPY --from=builder --chown=node:node /opt/lavamusic/lavamusic.db ./lavamusic.db
 COPY --chown=node:node entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
