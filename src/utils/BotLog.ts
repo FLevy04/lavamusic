@@ -1,35 +1,31 @@
-import type { TextChannel } from "discord.js";
+import { ChannelType } from "discord.js";
 import type { Lavamusic } from "../structures/index";
+import { LOG_COLORS, type LogLevel } from "../types/log";
 
-export function sendLog(
-	client: Lavamusic,
-	message: string,
-	type: "error" | "warn" | "info" | "success" = "info",
-): void {
-	if (!client?.channels.cache && client.env.LOG_CHANNEL_ID) return;
+/**
+ * Sends a log message to the configured log channel.
+ *
+ * @param client - The bot client instance.
+ * @param message - The message content to log.
+ * @param level - The severity level of the log.
+ */
+export async function sendLog(
+  client: Lavamusic,
+  message: string,
+  level: LogLevel = "info",
+): Promise<void> {
+  const logChannelId = client?.env?.LOG_CHANNEL_ID;
 
-	const channel = client.channels.cache.get(
-		client.env.LOG_CHANNEL_ID!,
-	) as TextChannel;
-	if (!channel) return;
+  if (!client.channels.cache || !logChannelId) return;
 
-	const colors = {
-		error: 0xff0000,
-		warn: 0xffff00,
-		info: 0x00ff00,
-		success: 0x00ff00,
-	} as const;
+  const channel = client.channels.cache.get(logChannelId);
 
-	const color = colors[type];
-	const embed = client
-		.embed()
-		.setColor(color)
-		.setDescription(message)
-		.setTimestamp();
+  // Ensure channel exists and is a text channel
+  if (!channel || channel.type !== ChannelType.GuildText) return;
 
-	channel.send({ embeds: [embed] }).catch(() => {
-		null;
-	});
+  const embed = client.embed().setColor(LOG_COLORS[level]).setDescription(message).setTimestamp();
+
+  await channel.send({ embeds: [embed] }).catch(() => null);
 }
 
 /**
