@@ -1,7 +1,4 @@
 import { z } from "zod";
-import { config } from "dotenv";
-
-config();
 
 const LavalinkNodeSchema = z.object({
 	id: z.string(),

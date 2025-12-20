@@ -24,8 +24,7 @@
         # Development dependencies
         devPackages = with pkgs; [
           git
-          nodejs
-          pnpm
+          bun
         ];
 
         # Environment variables
@@ -43,15 +42,14 @@
             echo "🎵 Lavamusic Development Environment"
             echo ""
             echo "🔧 Tools:"
-            echo "  • node $(node --version)"
-            echo "  • pnpm $(pnpm --version)"
+            echo "  • Bun $(bun --version)"
             echo "  • Git $(git version | awk '{print $3}')"
             echo ""
             echo "💻 Development commands:"
-            echo "  • pnpm install"
-            echo "  • pnpm run dev"
-            echo "  • pnpm run lint"
-            echo "  • pnpm run format"
+            echo "  • bun install"
+            echo "  • bun run dev"
+            echo "  • bun run lint"
+            echo "  • bun run format"
           '';
         };
 
