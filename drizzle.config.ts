@@ -6,9 +6,10 @@ if (!env.DATABASE_URL) {
 }
 
 export default defineConfig({
-  out: './drizzle',
+  out: './drizzle/postgres',
   schema: './src/database/schemas.ts',
-  dialect: 'sqlite',
+  dialect: 'postgresql',
+  driver: "pglite",
   dbCredentials: {
     url: env.DATABASE_URL,
   },

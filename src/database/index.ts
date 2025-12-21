@@ -1,24 +1,44 @@
-/* for sqlite */
-import { drizzle } from 'drizzle-orm/libsql';
-import { createClient } from '@libsql/client';
-import { env } from '../env';
+import { env } from "../env";
+import Logger from "../structures/Logger";
+import { DatabaseType, type LavaDatabase } from "../types/database";
 import * as schema from "./schemas";
 
-const client = createClient({ url: env.DATABASE_URL ?? 'file:./lavamusic.db' });
-export const db = drizzle({ client, schema });
+const logger = new Logger();
 
-export { schema };
+const getDatabaseType = (url?: string): DatabaseType => {
+	if (!url) return DatabaseType.PGLite;
+	if (url.startsWith("postgres://") || url.startsWith("postgresql://"))
+		return DatabaseType.Postgres;
+	if (url.startsWith("file:") || url.endsWith(".db"))
+		return DatabaseType.PGLite;
 
-/* for postgres */
-/* import { drizzle } from 'drizzle-orm/node-postgres';
-import { Pool } from 'pg';
-import { env } from '../env';
-import * as schema from "./postgres.schemas"; // rename file to postgres.schemas to schemas
+	return DatabaseType.PGLite;
+};
 
-const pool = new Pool({
-    connectionString: env.DATABASE_URL,
-});
+let db: LavaDatabase;
 
-export const db = drizzle(pool, { schema });
+const currentDbType = getDatabaseType(env.DATABASE_URL);
 
-export { schema }; */
+switch (currentDbType) {
+	case DatabaseType.Postgres: {
+		const { drizzle } = await import("drizzle-orm/node-postgres");
+		const { Pool } = await import("pg");
+
+		const pool = new Pool({ connectionString: env.DATABASE_URL });
+		db = drizzle(pool, { schema });
+
+		logger.success("[DB] Connected to PostgreSQL");
+		break;
+	}
+	case DatabaseType.PGLite: {
+		const { drizzle } = await import("drizzle-orm/pglite");
+
+		const dataDir = env.DATABASE_URL?.replace("file:", "") || "./lavamusic.db";
+		db = drizzle(dataDir, { schema });
+
+		logger.success("[DB] Connected to PGLite");
+		break;
+	}
+}
+
+export { db, schema };
