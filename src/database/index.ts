@@ -1,24 +1,12 @@
-/* for sqlite */
-import { drizzle } from 'drizzle-orm/libsql';
-import { createClient } from '@libsql/client';
-import { env } from '../env';
-import * as schema from "./schemas";
+// Re-export all types
+export * from "./types";
 
-const client = createClient({ url: env.DATABASE_URL ?? 'file:./lavamusic.db' });
-export const db = drizzle({ client, schema });
+// Re-export providers
+export { PostgresProvider, SQLiteProvider } from "./provider";
 
-export { schema };
+// Re-export factory functions
+export { createDatabaseProvider, detectDatabaseType, getDatabase, resetDatabase } from "./factory";
 
-/* for postgres */
-/* import { drizzle } from 'drizzle-orm/node-postgres';
-import { Pool } from 'pg';
-import { env } from '../env';
-import * as schema from "./postgres.schemas"; // rename file to postgres.schemas to schemas
-
-const pool = new Pool({
-    connectionString: env.DATABASE_URL,
-});
-
-export const db = drizzle(pool, { schema });
-
-export { schema }; */
+// Re-export schemas
+export * as pgSchema from "./schemas";
+export * as sqliteSchema from "./schemas.sqlite";
