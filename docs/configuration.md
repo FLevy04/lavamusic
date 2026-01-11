@@ -1,63 +1,66 @@
 # ⚙️ Configuration Guide
 
-## 🔧 Fine-Tune Your Experience
-Fine-tune your bot experience by adjusting the `.env` file.
+Fine-tune every aspect of your **LavaMusic** instance. All core settings are managed via the `.env` file in your root directory.
 
-### Environment Tweaks (.env)
-Your bot's personality lives here:
-- 🥸 `TOKEN`: Your bot's secret identity
-- #️⃣ `PREFIX`: Default command starter (like `/` or `!`)
-- 🗺️ `DEFAULT_LANGUAGE`: Start with `en` for English
-- 🗃️ `DATABASE_URL`: Where data lives (see database section below)
-- 👑 `OWNER_IDS`: Your admin IDs (array format)
-- 🔗 `NODES`: Lavalink connection details
+---
 
-🕵️ Peek at `.env.example` for all options!
+## 🔧 Environment Variables (`.env`)
 
-### Database Configuration
-🧠 **Smart Detection**: Lavamusic supports multiple database backends, automatically resolving the database type from your `DATABASE_URL` format:
+Your bot's behavior is defined by these key variables. Create this file by copying `.env.example`.
 
-| 🔗 DATABASE_URL Format | 🗃️ Database Type | 💾 Driver | ✏️ Example |
-|---------------------|---------------|--------|---------|
-| (empty/not set) | PGLite | drizzle-orm/pglite | `""` |
-| `postgres://...` | PostgreSQL | drizzle-orm/node-postgres | `postgres://user:pass@localhost:5432/db` |
-| `postgresql://...` | PostgreSQL | drizzle-orm/node-postgres | `postgresql://user:pass@localhost:5432/db` |
-| `sqlite:...` | SQLite | drizzle-orm/bun-sqlite | `sqlite:./lavamusic.db` |
-| `file:./path.db` | SQLite | drizzle-orm/bun-sqlite | `file:./lavamusic.db` |
-| `file:./path.sqlite` | SQLite | drizzle-orm/bun-sqlite | `file:./lavamusic.sqlite` |
-| `file:./path.sqlite3` | SQLite | drizzle-orm/bun-sqlite | `file:./lavamusic.sqlite3` |
-| `file:./path?mode=ro` | SQLite | drizzle-orm/bun-sqlite | `file:./lavamusic.db?mode=ro` |
-| `file:./directory` | PGLite | drizzle-orm/pglite | `file:./lavamusic-pgdata` |
+### 🔑 Authentication
 
-> [!NOTE]
-[PGlite](https://pglite.dev/) is a WASM Postgres build packaged into a TypeScript client library that enables you to run Postgres in the browser, Node.js and Bun, with no need to install any other dependencies.
+* **`TOKEN`**: Your Discord Bot Token. **Keep this secret!**
+* **`CLIENT_ID`**: The Application ID of your bot.
 
-### 🐘 Why PGLite? (And not just SQLite?)
+### 📜 Bot Settings
 
-You might be wondering:  
-*`Why PGlite? Isn't SQLite the standard for small/local bots?`*
+* **`PREFIX`**: The default character used to trigger commands (e.g., `!` or `/`).
+* **`DEFAULT_LANGUAGE`**: The initial language for the bot (e.g., `en`, `es`, `fr`).
+* **`OWNER_IDS`**: A list of Discord User IDs that have administrative access to the bot.
+  * Example: `OWNER_IDS=["123456789", "987654321"]`
 
-That's a great question! While SQLite is amazing, PGlite offers a unique advantage for a project like Lavamusic:  
-It allows us to use the power of PostgreSQL without the complexity of setting up a server.
+### 🗃️ Database
 
-Here is why we made it the default:
+* **`DATABASE_URL`**: The connection string for your database. Supports SQLite, PostgreSQL, and PGLite.
+  * *See the Database section below for more details.*
 
-- **Postgres power, SQLite simplicity**  
-  PGlite runs entirely in a folder on your computer (just like SQLite), but inside, it is a full PostgreSQL engine running via WASM. You get all the advanced features of Postgres with zero installation steps. It doesn't need a separate server, Docker container, or complex installation.
+---
 
-- **Seamless Scaling**  
-  Start small with PGLite (file-based). If your bot grows to thousands of servers and you need a dedicated database cluster, you simply change the `DATABASE_URL` to a full PostgreSQL server. **No code changes required.** You don't need to rewrite queries or migrate data types.
+## 🧠 Smart Database Detection
 
-In short: **It just works**. PGlite gives you the simplicity of a file-based database with the power and scalability of a full database.  
-It's the modern, robust choice for bots that want to stay simple today but be ready for tomorrow.
+LavaMusic automatically detects which database you want to use based on the format of your `DATABASE_URL`.
 
-## 🌋 Lavalink Customization
-Tweak `Lavalink/application.yml` for audio sources, plugins, and tweaks.
+| Format | Database Type | Description |
+| :--- | :--- | :--- |
+| *(Empty)* | **PGLite** | Recommended. File-based Postgres (No server needed). |
+| `postgres://...` | **PostgreSQL** | Ideal for large-scale production bots. |
+| `sqlite:./db.sqlite` | **SQLite** | Traditional file-based database. |
 
-## 📀 Music Sources Galore
+### 🐘 Why PGLite is the Default
 
-💎 **Built-in Gems**: SoundCloud, Twitch, Bandcamp, Vimeo, NicoNico, and more.
+We use **PGLite** because it offers the simplicity of a file (like SQLite) but uses the powerful **PostgreSQL** engine. This means you can start small and switch to a full Postgres server later without changing a single line of code.
 
-🧩 **Plugin Power-Ups** (add these for ultimate variety):
-- 🎵 YouTube, Spotify, Deezer, Apple Music: Grab [LavaSrc](https://github.com/topi314/LavaSrc)
-- 👥 Endless more via community plugins.
+---
+
+## 🌋 Lavalink Configuration
+
+The audio engine settings are located in `Lavalink/application.yml`. You can customize:
+
+* **Password**: Ensure this matches the password in your `.env`.
+* **Port**: Default is `2333`.
+* **Sources**: Enable or disable specific platforms like SoundCloud or Twitch.
+
+### 🧩 Adding More Sources (Spotify, YouTube, etc.)
+
+To add support for Spotify or YouTube, you need the **[LavaSrc](https://github.com/topi314/LavaSrc)** plugin.
+
+1. Download the plugin JAR.
+2. Place it in the `plugins` folder of your Lavalink directory.
+3. Restart Lavalink.
+
+---
+
+::: info NEED HELP?
+If you're unsure about a specific setting, check the `.env.example` file for detailed comments or join our [Support Server](https://mintone.tech/support).
+:::

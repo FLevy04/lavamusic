@@ -1,148 +1,128 @@
 # 🧭 Installation Guide
 
-## 🚀 Getting Started: Easy as Pie! (Even if You're New to This)
+Follow this guide to get **LavaMusic** up and running on your server.
 
-Getting Lavamusic up and running is easy as pie, even if you are new to this! Follow these steps to get your bot grooving.
+**⏱️ Estimated time: 5-10 minutes**
 
-## 🛠️ Quick Prerequisites
+---
 
-Before we dive in, make sure you have these ready:
+## 🚀 Before You Start (Prerequisites)
 
-- **Bun** ([download here](https://bun.sh/))
-  > According to the official website, Bun is a fast all-in-one JavaScript runtime.
+Please ensure you have these ready to avoid issues during setup:
 
-  > [!IMPORTANT]
-  This project relies on **Bun**, which is required to execute the automation scripts.  
-  Please ensure it is installed to proceed.
-- A **Lavalink server** (don't worry, we'll set it up!)
-  - **Java 17+** (Required for Lavalink - [download here](https://adoptium.net/))
-- Your **Discord bot token** from the [Discord Developer Portal](https://discord.com/developers/applications)
+* **[Bun](https://bun.sh/)** (Required) - The incredibly fast JS runtime.
+* **[Java 17+](https://adoptium.net/)** - Required to run the Lavalink audio engine.
+* **Discord Bot Token** - Get one from the [Developer Portal](https://discord.com/developers/applications).
+* **Lavalink Server** - We'll help you set this up in the steps below.
 
-Got them? Great! Let's get Lavamusic grooving in no time.
+::: danger IMPORTANT
+This project **requires Bun**. Standard Node.js might not work for some automation scripts.
+:::
 
-## 📋 Step-by-Step Setup (We're Here to Help!)
+---
 
-### 1. Grab the Code
+## 📋 Step-by-Step Walkthrough
 
-Open your terminal and run:
+### 1️⃣ Download the Code
+
+Open your terminal and clone the repository:
 
 ```bash
 git clone https://github.com/botxlab/lavamusic.git
 cd lavamusic
 ```
 
-### 2. Install the Goodies
+### 2️⃣ Install Dependencies
 
-Pick your favorite package manager:
+Use Bun to install all required packages:
 
 ```bash
-# Using bun (Recommended)
 bun install
-
-# If you use npm (classic choice):
-npm install
-
-# Or try pnpm (super fast):
-pnpm install
-
-# Yarn fan? No problem:
-yarn install
 ```
 
-### 3. Set Up Your Environment
+### 3️⃣ Configure Environment Variables
 
-Create your config file:
+Copy the example environment file and edit it:
 
 ```bash
 cp .env.example .env
 ```
 
-Now, edit `.env` in your favorite text editor. See **[Configuration Guide](configuration.md)** for detailed options.
+Open `.env` in your editor and fill in:
 
-```env
-TOKEN="your_bot_token_here"
-CLIENT_ID="your_bot_client_id"
-OWNER_IDS=["your_discord_user_id"]
-DATABASE_URL="file:./lavamusic.db"  # SQLite is fine for starters, or use PostgreSQL later
-```
+* `TOKEN`: Your Discord Bot Token.
+* `CLIENT_ID`: Your Discord Bot Client ID.
+* `OWNER_IDS`: Your Discord User ID (for admin commands).
 
-### 4. Get Lavalink Ready (Our Audio Engine)
+### 4️⃣ Set Up Lavalink (Audio Engine)
 
-Copy the example config:
+Copy the example Lavalink configuration:
 
 ```bash
 cp Lavalink/example.application.yml Lavalink/application.yml
 ```
 
-> [!TIP] Need extra music sources like YouTube or Spotify?
-The config has instructions to add plugins!
-
-Fire up Lavalink (we'll use a simple start command):
-> [!IMPORTANT]
-Requires Java 17 or higher
+To start Lavalink:
 
 ```bash
 cd Lavalink
-java -jar lavalink.jar  # Assuming you have the JAR ready
+java -jar lavalink.jar
 ```
 
-By default, it runs at `localhost:2333`. Easy peasy!
+::: tip KEEP IT RUNNING
+Lavalink must be running in the background for the bot to play music.
+:::
 
-### 5. Set Up the Database (Required!)
->
-> [!CAUTION] 🚨 IMPORTANT 🚨
-**You MUST run this step before starting the bot, or it will crash!**
+### 5️⃣ Prepare the Database
 
-Choose your database type by setting `DATABASE_URL` in your `.env` file (see **[Configuration Guide](configuration.md)**):
+This step is **mandatory**. Choose your database type based on your `.env`:
 
-**For SQLite (recommended for beginners):**
+**For SQLite (Recommended for Beginners):**
 
 ```bash
 bun run db:push:sqlite
 ```
 
-**For PostgreSQL/PGLite (if DATABASE_URL is set to postgres://... or empty):**
+**For PostgreSQL:**
 
 ```bash
 bun run db:push
 ```
 
-This creates all necessary database tables. Without this step, the bot will fail to start!
+### 6️⃣ Launch the Bot! 🏁
 
-### 🐘 Switching to PostgreSQL / PGLite?  
-
-If you update your `DATABASE_URL` in `.env` to use **Postgres** later, you must run the command below.  
-This is necessary to generate the PostgreSQL-compatible schema and apply it to the new database.  
-> [!WARNING]
-Existing data in SQLite will not be automatically transferred to Postgres.
-
-```bash
-bun run db:push
-```
-
-### 6. Launch the Bot
-
-Build and run:
+Finally, build the source code and start your bot:
 
 ```bash
 bun run build
 bun run start
 ```
 
-### 7. Welcome Lavamusic to Your Server
+---
 
-Click here to invite: **[🎉 Add to Server 🎉](https://mintone.tech/invite)**
+## 🎈 Invite Your Bot
 
-Or craft the link manually:
-> [!NOTE] Replace
->
-> - `YOUR_CLIENT_ID` with your Bot Client ID  
-> - `REDIRECT_URI` with your Bot Redirect URI  
->
+Once the bot is online, you can invite it to your server using this link:
+**[🎉 Add LavaMusic to Your Server 🎉](https://mintone.tech/invite)**
+
+Alternatively, replace `YOUR_CLIENT_ID` in the link below:
+
+```text
+https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=8&scope=bot%20applications.commands
 ```
-https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=279209954560&response_type=code&redirect_uri=REDIRECT_URI&integration_type=0&scope=bot+guilds+applications.commands
-```
 
-### 8. Sync Commands (Optional Step)
+---
 
-In any server channel, type `!deploy` or `/deploy` to activate slash commands.
+## 🛠️ After Setup Tasks
+
+### 📢 Sync Slash Commands
+
+In any server channel, type `!deploy` to register your slash commands with Discord.
+
+### 📜 Explore Commands
+
+Check out the **[Commands Guide](/commands)** to learn how to use filters, autoplay, and more.
+
+::: info NEED SUPPORT?
+Join our community on [Discord](https://mintone.tech/support) if you run into any trouble!
+:::
