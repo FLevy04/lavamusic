@@ -85,6 +85,7 @@ locales/
 ### Example
 
 **Source (`en-US/commands.json`):**
+
 ```json
 {
   "ping": {
@@ -96,6 +97,7 @@ locales/
 ```
 
 **Target (`hi/commands.json`):**
+
 ```json
 {
   "ping": {

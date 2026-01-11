@@ -7,6 +7,7 @@ Getting Lavamusic up and running is easy as pie, even if you are new to this! Fo
 ## 🛠️ Quick Prerequisites
 
 Before we dive in, make sure you have these ready:
+
 - **Bun** ([download here](https://bun.sh/))
   > According to the official website, Bun is a fast all-in-one JavaScript runtime.
 
@@ -22,14 +23,18 @@ Got them? Great! Let's get Lavamusic grooving in no time.
 ## 📋 Step-by-Step Setup (We're Here to Help!)
 
 ### 1. Grab the Code
+
 Open your terminal and run:
+
 ```bash
 git clone https://github.com/botxlab/lavamusic.git
 cd lavamusic
 ```
 
 ### 2. Install the Goodies
+
 Pick your favorite package manager:
+
 ```bash
 # Using bun (Recommended)
 bun install
@@ -45,12 +50,15 @@ yarn install
 ```
 
 ### 3. Set Up Your Environment
+
 Create your config file:
+
 ```bash
 cp .env.example .env
 ```
 
-Now, edit `.env` in your favorite text editor. See **[Configuration Guide](CONFIGURATION.md)** for detailed options.
+Now, edit `.env` in your favorite text editor. See **[Configuration Guide](configuration.md)** for detailed options.
+
 ```env
 TOKEN="your_bot_token_here"
 CLIENT_ID="your_bot_client_id"
@@ -59,7 +67,9 @@ DATABASE_URL="file:./lavamusic.db"  # SQLite is fine for starters, or use Postgr
 ```
 
 ### 4. Get Lavalink Ready (Our Audio Engine)
+
 Copy the example config:
+
 ```bash
 cp Lavalink/example.application.yml Lavalink/application.yml
 ```
@@ -79,17 +89,20 @@ java -jar lavalink.jar  # Assuming you have the JAR ready
 By default, it runs at `localhost:2333`. Easy peasy!
 
 ### 5. Set Up the Database (Required!)
+>
 > [!CAUTION] 🚨 IMPORTANT 🚨
 **You MUST run this step before starting the bot, or it will crash!**
 
-Choose your database type by setting `DATABASE_URL` in your `.env` file (see **[Configuration Guide](CONFIGURATION.md)**):
+Choose your database type by setting `DATABASE_URL` in your `.env` file (see **[Configuration Guide](configuration.md)**):
 
 **For SQLite (recommended for beginners):**
+
 ```bash
 bun run db:push:sqlite
 ```
 
 **For PostgreSQL/PGLite (if DATABASE_URL is set to postgres://... or empty):**
+
 ```bash
 bun run db:push
 ```
@@ -107,23 +120,29 @@ Existing data in SQLite will not be automatically transferred to Postgres.
 bun run db:push
 ```
 
-### 6. Launch the Bot!
+### 6. Launch the Bot
+
 Build and run:
+
 ```bash
 bun run build
 bun run start
 ```
 
 ### 7. Welcome Lavamusic to Your Server
+
 Click here to invite: **[🎉 Add to Server 🎉](https://mintone.tech/invite)**
 
 Or craft the link manually:
 > [!NOTE] Replace
+>
 > - `YOUR_CLIENT_ID` with your Bot Client ID  
 > - `REDIRECT_URI` with your Bot Redirect URI  
+>
 ```
 https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=279209954560&response_type=code&redirect_uri=REDIRECT_URI&integration_type=0&scope=bot+guilds+applications.commands
 ```
 
 ### 8. Sync Commands (Optional Step)
+
 In any server channel, type `!deploy` or `/deploy` to activate slash commands.

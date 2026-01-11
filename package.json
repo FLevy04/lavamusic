@@ -5,30 +5,26 @@
   "main": "dist/index.js",
   "scripts": {
     "generate": "bun run scripts/generate-registry.ts",
-    
     "prebuild": "bun run generate",
     "build": "bun run scripts/build.ts",
-    
     "predev": "bun run generate",
     "dev": "bun --watch src/index.ts",
-    
     "start": "bun run dist/index.js",
     "start:src": "bun run src/index.ts",
-
     "db:push": "drizzle-kit migrate --config=drizzle.config.ts",
     "db:drop": "drizzle-kit drop --config=drizzle.config.ts",
     "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
     "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
-    
     "db:push:sqlite": "drizzle-kit migrate --config=drizzle.config.sqlite.ts",
     "db:drop:sqlite": "drizzle-kit drop --config=drizzle.config.sqlite.ts",
     "db:generate:sqlite": "drizzle-kit generate --config=drizzle.config.sqlite.ts",
     "db:studio:sqlite": "drizzle-kit studio --config=drizzle.config.sqlite.ts",
-    
     "i18n:sync": "bun run scripts/sync-locales.ts",
-    
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "repository": {
     "type": "git",
@@ -57,7 +53,8 @@
     "@types/pg": "^8.16.0",
     "@types/signale": "^1.4.7",
     "drizzle-kit": "^0.31.8",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitepress": "^1.6.4"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.14",
