@@ -69,13 +69,9 @@ export default class Lavamusic extends Client {
 
 		try {
 			this.loadCommands();
-			logger.info(`Successfully loaded ${this.commands.size} commands!`);
-
 			this.loadEvents();
-			logger.info(`Successfully loaded events!`);
-
 			this.loadComponents();
-			logger.info(`Successfully loaded ${this.components.size} components!`);
+			logger.info("Commands, Events, and Components loaded successfully!");
 
 			await this.login(token);
 		} catch (error) {

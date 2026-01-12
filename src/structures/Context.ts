@@ -49,25 +49,20 @@ export default class Context {
 		this.createdAt = ctx.createdAt;
 		this.createdTimestamp = ctx.createdTimestamp;
 		this.member = ctx.member;
-		this.args = args;
-		this.setArgs(args);
+		this.args = this.interaction ? args.map((arg: any) => arg.value) : args;
 		this.setUpLocale();
 	}
 
 	private async setUpLocale(): Promise<void> {
-		const defaultLanguage = env.DEFAULT_LANGUAGE || Locale.EnglishUS;
 		this.guildLocale = this.guild
 			? await this.client.db.getLanguage(this.guild.id)
-			: defaultLanguage;
+			: env.DEFAULT_LANGUAGE || Locale.EnglishUS;
 	}
 
 	public get isInteraction(): boolean {
 		return this.ctx instanceof ChatInputCommandInteraction;
 	}
 
-	public setArgs(args: any[]): void {
-		this.args = this.isInteraction ? args.map((arg: { value: any }) => arg.value) : args;
-	}
 
 	public async sendMessage(
 		content: string | MessagePayload | MessageCreateOptions | InteractionReplyOptions,

@@ -58,7 +58,6 @@ export default class InteractionCreate extends Event {
 			if (!command) return;
 
 			const ctx = new Context(interaction, [...interaction.options.data]);
-			ctx.setArgs([...interaction.options.data]);
 			ctx.guildLocale = locale;
 			const clientMember = interaction.guild.members.resolve(this.client.user!)!;
 			if (
